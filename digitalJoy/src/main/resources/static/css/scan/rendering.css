@@ -1,0 +1,44 @@
+#detailContainer{
+	width: 100vw; 
+	height: 100vh; 
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#optionDiv{
+	margin-bottom: 5vh;
+}
+
+#allFile{
+	text-decoration: none;
+	color: darkslategray;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	width: 8vw;
+	height: 5vh;
+	border: 1.5px solid darkslategray;
+	transition: background-color 0.3s;
+	
+}
+#allFile:hover{
+	background-color: darkslategray;
+	color: white;
+	
+}
+#detailFile{
+	width: 500px; 
+	height: 500px; 
+	border-radius: 10px;
+	object-fit: cover; 
+	object-position: center;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
+    cursor: pointer;
+}
+#detailFile:hover{
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+}

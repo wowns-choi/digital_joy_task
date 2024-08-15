@@ -1,0 +1,33 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+#container{
+	display:flex; 
+	justify-content: center; 
+	align-items:center; 
+	width:100vw; 
+	margin-top: 5vh;
+}
+#scanFileContainer{
+	display:flex; 
+	width: 100vw; 
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}
+.scanedImg{
+	width:300px; 
+	height:300px;
+	margin-left: 3vw; 
+	margin-right: 3vw; 
+	margin-top: 2vh; 
+	margin-bottom: 2vh;
+	border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
+	object-fit: cover; 
+	object-position: center;
+}
+.scanedImg:hover{
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+}

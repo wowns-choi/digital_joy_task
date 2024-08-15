@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset=-"UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 렌더링 페이지</title>
+	
+	<link rel="stylesheet" href="/css/scan/allRendering.css">
+	
+</head>
+<body>
+
+	
+	<div id="container">
+		<ul id="scanFileContainer">
+		    <li th:each="file : ${files}" style="			list-style-type: none;">
+				<a th:href="@{/file/{fileNo}(fileNo=${file.fileNo})}">
+				<img th:src="@{${file.webPath + file.fileRename}}"
+				th:title="${file.fileOriginalName}"
+				class="scanedImg"
+				> 			
+				</a>
+		    </li>
+		</ul>
+	</div>
+	
+	
+	
+</body>
+</html>

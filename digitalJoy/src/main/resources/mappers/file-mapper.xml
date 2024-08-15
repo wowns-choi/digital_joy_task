@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scanner.digitaljoy.scan.model.mapper.FileMapper"> 
+
+	<insert id="upload"> 
+		INSERT INTO FILE VALUES (NULL, #{webPath}, #{fileOriginalName}, #{fileRename}, NULL)
+	</insert>
+	
+	<select id="getFiles">
+		SELECT * FROM FILE
+	</select>
+	
+	<select id="getFile">
+		SELECT * FROM FILE WHERE FILE_NO = #{fileNoInt}
+	</select>
+
+</mapper>
