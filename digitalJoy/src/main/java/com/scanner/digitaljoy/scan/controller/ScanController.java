@@ -71,6 +71,7 @@ public class ScanController {
 		
 		List<FileDTO> files = scanService.getFiles();
 		model.addAttribute("files", files);
+		log.info("files=={}", files);
 		return "scan/allRendering";
 	}
 	
