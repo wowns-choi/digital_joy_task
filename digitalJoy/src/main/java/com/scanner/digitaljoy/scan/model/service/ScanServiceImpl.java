@@ -3,6 +3,7 @@ package com.scanner.digitaljoy.scan.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +38,13 @@ public class ScanServiceImpl implements ScanService{
 	 * 파일 업로드 
 	 */
 	@Override
-	public String upload(MultipartFile uploadFile) throws IllegalStateException, IOException {
+	public Map<String, Object> upload(MultipartFile uploadFile) throws IllegalStateException, IOException {
+		
+		Map<String, Object> returnMap = new HashMap<>();
 		
 		if(uploadFile.isEmpty()) {
-			return "0";
+			returnMap.put("flag", "0");
+			return returnMap;
 		}
 		
 		String fileOriginalName= uploadFile.getOriginalFilename();
@@ -52,17 +56,20 @@ public class ScanServiceImpl implements ScanService{
 						   	  .fileRename(fileRename)
 							  .build();
 		
-		int result = fileMapper.upload(file);
+		int result  = fileMapper.upload(file);
 		
 		if(result == 0) {
-			return "1";
+			returnMap.put("flag", "1");
+			return returnMap; 
 		}
 		
 		uploadFile.transferTo(
 				new File(folderPath + fileRename)
 		);
-		 
-		return webPath + fileRename;
+		
+		returnMap.put("flag", webPath + fileRename);
+		returnMap.put( "fileNo", String.valueOf(file.getFileNo()) );
+		return returnMap;
 	}
 
 

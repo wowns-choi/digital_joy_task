@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,22 +30,25 @@ import lombok.extern.slf4j.Slf4j;
 public class ScanController {
 
 	private final ScanService scanService; 
+	private final SimpMessagingTemplate  messagingTemplate;
+
 	
 	@GetMapping("hello")
 	public String method() {
 		return "scan/fileInput";
 	}
 
-	@PostMapping("upload")
+	@PostMapping(value="upload", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("uploadFile") MultipartFile uploadFile,
 							Model model) {
 		
 		Map<String, String> response = new HashMap<>();
 		
-		String uploadedFile;
+		Map<String, Object> returnMap;
+
 		try {
-			uploadedFile = scanService.upload(uploadFile);
+			returnMap = scanService.upload(uploadFile);
 		} catch (IOException e) {
 			response.put("message", "파일 저장 중 IOException 이 발생하였습니다.");
 			response.put("errorCode", "UPLOAD_FAIL_IOEXCEPTION");
@@ -52,7 +56,9 @@ public class ScanController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 		
-		if(uploadFile.equals("0")) {
+		String flag = (String)returnMap.get("flag");
+		
+		if(flag.equals("0")) {
 			log.debug("no file uploaded");
 			response.put("message", "업로드된 파일이 존재하지 않습니다.");
 			response.put("errorCode", "NO_FILE_UPLOADED");
@@ -60,9 +66,19 @@ public class ScanController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 		
-		response.put("message", "파일 업로드 성공");
-		response.put("errorCode", "UPLOAD_SUCCESS");
+		if(flag.equals("1")) {
+			log.debug("database not insert");
+			response.put("message", "서버에러");
+			response.put("errorCode", "INTERNAL_SERVER_ERROR");
+			response.put("timestamp", LocalDateTime.now().toString());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
 		
+		// 자동 렌더링 : 웹소켓을 통하여 구현 
+		messagingTemplate.convertAndSend("/topic/rendering", returnMap);
+		
+		response.put("message", "파일 업로드에 성공하였습니다");
+		response.put("errorCode", "UPLOAD_SUCCESS");
 		return ResponseEntity.ok().body(response);
 	}
 	

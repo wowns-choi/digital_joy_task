@@ -10,7 +10,7 @@ import com.scanner.digitaljoy.scan.model.dto.FileDTO;
 
 public interface ScanService {
 
-	String upload(MultipartFile uploadFile) throws IllegalStateException, IOException;
+	Map<String, Object> upload(MultipartFile uploadFile) throws IllegalStateException, IOException;
 
 	List<FileDTO> getFiles();
 

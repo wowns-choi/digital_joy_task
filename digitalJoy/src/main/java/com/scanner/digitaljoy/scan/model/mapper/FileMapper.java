@@ -8,7 +8,7 @@ import com.scanner.digitaljoy.scan.model.dto.FileDTO;
 
 @Mapper
 public interface FileMapper {
-
+		
 	int upload(FileDTO file);
 
 	List<FileDTO> getFiles();
