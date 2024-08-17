@@ -21,4 +21,7 @@ public class FileDTO {
 	private String fileOriginalName; 
 	private String fileRename; 
 	private LocalDateTime fileUploadTime;
+	
+	// 확장자 
+	private String extension; 
 }

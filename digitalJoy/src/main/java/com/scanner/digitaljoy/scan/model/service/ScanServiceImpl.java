@@ -49,13 +49,6 @@ public class ScanServiceImpl implements ScanService{
 		
 		String fileOriginalName= uploadFile.getOriginalFilename();
 		
-		log.info("fileOriginalName=={}", fileOriginalName);
-		log.info("fileOriginalName=={}", fileOriginalName);
-		log.info("fileOriginalName=={}", fileOriginalName);
-		log.info("fileOriginalName=={}", fileOriginalName);
-		log.info("fileOriginalName=={}", fileOriginalName);
-		log.info("fileOriginalName=={}", fileOriginalName);
-		
 		String fileRename = Utility.fileRename(fileOriginalName);
 		
 		FileDTO file = FileDTO.builder()
@@ -77,6 +70,11 @@ public class ScanServiceImpl implements ScanService{
 		
 		returnMap.put("flag", webPath + fileRename);
 		returnMap.put( "fileNo", String.valueOf(file.getFileNo()) );
+		
+		String extension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+		
+		returnMap.put("extension", extension);
+		
 		return returnMap;
 	}
 
@@ -89,7 +87,9 @@ public class ScanServiceImpl implements ScanService{
 		List<FileDTO> files = fileMapper.getFiles();
 		
 		for(FileDTO file : files) {
-			log.info("sssssss={}", file);
+			String extension= 
+					file.getFileOriginalName().substring(file.getFileOriginalName().lastIndexOf("."));
+			file.setExtension(extension);
 		}
 		
 		return files;
